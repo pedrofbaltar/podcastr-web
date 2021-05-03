@@ -1,11 +1,8 @@
 import Image from 'next/image';
-import { useContext, useRef, useEffect } from 'react';
 import Slider from 'rc-slider';
-
 import 'rc-slider/assets/index.css';
-
-import { PlayerContext } from '../../contexts/PlayerContext';
-
+import { useEffect, useRef } from 'react';
+import { userPlayer } from '../../contexts/PlayerContext';
 import styles from './styles.module.scss';
 
 export function Player() {
@@ -14,11 +11,15 @@ export function Player() {
     episodeList,
     currentEpisodeIndex,
     isPlaying,
+    isLooping,
     togglePlay,
+    toggleLoop,
     setPlayingState,
     playNext,
-    playPrevious
-  } = useContext(PlayerContext);
+    playPrevious,
+    hasNext,
+    hasPrevious
+  } = userPlayer();
   const episode = episodeList[currentEpisodeIndex];
 
   useEffect(() => {
@@ -82,6 +83,7 @@ export function Player() {
           <audio
             src={episode.url}
             ref={audioRef}
+            loop={isLooping}
             autoPlay
             onPlay={() => setPlayingState(true)}
             onPause={() => setPlayingState(false)}
@@ -93,7 +95,7 @@ export function Player() {
             <img src="/shuffle.svg" alt="Embaralhar"/>
           </button>
 
-          <button type="button" disabled={!episode} onClick={playPrevious}>
+          <button type="button" disabled={!episode || !hasPrevious} onClick={playPrevious}>
             <img src="/play-previous.svg" alt="Tocar anterior"/>
           </button>
 
@@ -109,11 +111,16 @@ export function Player() {
             }
           </button>
 
-          <button type="button" disabled={!episode} onClick={playNext}>
+          <button type="button" disabled={!episode || !hasNext} onClick={playNext}>
             <img src="/play-next.svg" alt="Tocar próxima"/>
           </button>
 
-          <button type="button" disabled={!episode}>
+          <button
+            type="button"
+            disabled={!episode}
+            onClick={toggleLoop}
+            className={isLooping ? styles.isActive : ''}
+          >
             <img src="/repeat.svg" alt="Repetir"/>
           </button>
         </div>
