@@ -21,13 +21,13 @@ Confira o layout da aplicação no Figma clicando [aqui](https://www.figma.com/f
 - Clone este repositório
 
 ```
-$ git clone https://github.com/pedrofbaltar/podcastr-project
+$ git clone https://github.com/pedrofbaltar/podcastr-web
 ```
 
 - Navegue até o diretório principal do projeto
 
 ```
-$ cd podcastr-project
+$ cd podcastr-web
 ```
 
 - Instale as dependências com o Yarn
